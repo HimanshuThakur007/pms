@@ -2,11 +2,11 @@ import React from 'react'
 import DatePicker from "react-datepicker";
 import moment from 'moment-timezone';
 
-const InputDate = ({onChange,selected,labelName}:any) => {
+const InputDate = ({onChange,selected,labelName,required,star}:any) => {
   return (
     <div className="mb-3">
     <label className="col-form-label">
-      {labelName}
+      {labelName} <span className='text-danger'>{star}</span>
     </label>
     <div className="icon-form-end">
       <span className="form-icon">
@@ -17,6 +17,7 @@ const InputDate = ({onChange,selected,labelName}:any) => {
           selected={selected}
           onChange={onChange}
           dateFormat="dd-MM-yyyy"
+          required={required}
         />
     </div>
   </div>

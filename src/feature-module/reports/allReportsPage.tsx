@@ -159,12 +159,12 @@ const AllReportsPage = () => {
       select2: null,
     });
     setReset(1)
-console.log(dates,'dddd')
+// console.log(dates,'dddd')
     // RecallFunctionHandler();
   };
   const getFunctinFilter = () => {
     RecallFunctionHandler();
-    console.log("called");
+    // console.log("called");
   };
 
   const formatDate = (date: any) => {

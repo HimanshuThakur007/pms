@@ -167,6 +167,7 @@ export const all_routes = {
   connectedApps: "/general-settings/connected-apps",
   notification: "/general-settings/notification",
   profile: "/general-settings/profile",
+  profilePage: '/about-me',
   security: "/general-settings/security",
 
   banIpAddrress: "/other-settings/ban-ip-address",
@@ -234,5 +235,10 @@ export const all_routes = {
   // ==by me MasterManagement===============
   MasterListComp: '/masterList/:id',
   // MasterListComp: (id) => `/masterList/${id}`
-  allReportsPage: '/reports/:id'
+  allReportsPage: '/reports/:id',
+
+  usermanagementlist:'/:userType/:id',
+  busyIntegration:'/general-settings/busyIntegration',
+  whatsappSetting: '/general-settings/whatsapp',
+  emailSetting: '/general-settings/email',
 };

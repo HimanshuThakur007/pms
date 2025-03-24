@@ -1,0 +1,72 @@
+export const qualityTask = (dropDownMaster: any) => [
+  {
+    type: "select",
+    fieldName: "company",
+    label: "Company",
+    options: dropDownMaster?.company,
+    isMulti: false,
+    required: true,
+  },
+  {
+    type: "input",
+    inputType: "text",
+    fieldName: "name",
+    label: "Task Name",
+    required: true,
+  },
+  {
+    type: "select",
+    fieldName: "assignedTo",
+    label: "AssignedTo",
+    options: dropDownMaster?.assignedTo,
+    isMulti: true,
+    required: true,
+  },
+
+  {
+    type: "select",
+    fieldName: "category",
+    label: "Category",
+    options: dropDownMaster?.category,
+    isMulti: false,
+    required: true,
+  },
+  {
+    type: "select",
+    fieldName: "site",
+    label: "Site",
+    options: dropDownMaster?.site,
+    isMulti: false,
+    required: true,
+  },
+
+  {
+    type: "date",
+    fieldName: "SDate",
+    label: "Start Date",
+    required: true,
+  },
+  { type: "date", fieldName: "EDate", label: "Due Date", required: true },
+  {
+    type: "select",
+    fieldName: "priority",
+    label: "Priority",
+    options: dropDownMaster?.priority,
+    isMulti: false,
+    required: false,
+  },
+  {
+    type: "select",
+    fieldName: "status",
+    label: "Status",
+    options: dropDownMaster?.status,
+    isMulti: false,
+    required: false,
+  },
+  {
+    type: "textarea",
+    fieldName: "description",
+    label: "Description",
+    required: false,
+  },
+];

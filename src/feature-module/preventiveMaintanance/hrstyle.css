@@ -1,0 +1,99 @@
+
+  
+  .hr-text {
+    border: 0;
+    line-height: 1em;
+    position: relative;
+    text-align: center;
+    height: 1.5em;
+    font-size: 14px;
+    margin: 30px 15px;
+  }
+  
+  .hr-text::before {
+      content: "";
+      background: linear-gradient(to right, transparent, grey, transparent);
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+  }
+  
+  .hr-text::after {
+      content: attr(data-content);
+      position: relative;
+      padding: 0 7px;
+      line-height: 1.5em;
+      color: white;
+      background-color: #1a1a1a;
+  }
+  .hr-text1 {
+    border: 0;
+    line-height: 1em;
+    position: relative;
+    text-align: center;
+    height: 1.5em;
+    font-size: 14px;
+    margin: 30px 15px;
+  }
+  
+  .hr-text1::before {
+      content: "";
+      background: linear-gradient(to right, transparent, grey, transparent);
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+  }
+  
+  .hr-text1::after {
+      content: attr(data-content);
+      position: relative;
+      padding: 0 7px;
+      line-height: 1.5em;
+      color: white;
+      background-color: #0551de;
+  }
+  
+  
+  .hr-text2 {
+    border: 0;
+    line-height: 1em;
+    position: relative;
+    text-align: center;
+    height: 1.5em;
+    font-size: 20px; 
+    font-weight: bold;
+    margin: 30px 15px;
+    color: black;
+}
+
+.hr-text2::before {
+    content: "";
+    background: linear-gradient(to right, transparent, black, transparent); /* Stronger black */
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 2px; /* Make the line thicker */
+    opacity: 0.8; /* Slightly reduce transparency */
+}
+
+.hr-text2::after {
+    content: attr(data-content);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px 15px;
+    font-size: 20px; /* Bigger text */
+    font-weight: 900; /* Extra bold for better visibility */
+    color: #001f8b; /* Darker navy blue */
+    background-color: white;
+    /* text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);  */
+    white-space: nowrap;
+    border-radius: 5px;
+    letter-spacing: 0.5px; /* Slight spacing for clarity */
+}

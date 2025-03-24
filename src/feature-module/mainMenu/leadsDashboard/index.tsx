@@ -5,9 +5,13 @@ import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
 import { all_routes } from "../../router/all_routes";
 import CollapseHeader from "../../../core/common/collapse-header";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../core/data/redux/store";
 
 const route = all_routes;
 const LeadsDashboard = () => {
+  // const { user, isLoading } = useSelector((state: RootState) => state.auth);
+  // console.log('user-lead',JSON.parse(user))
   const [chartOptions] = useState<any>( {
     series: [
       {

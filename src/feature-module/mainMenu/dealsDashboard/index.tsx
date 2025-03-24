@@ -4,9 +4,36 @@ import { Link, useLocation } from "react-router-dom";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import "bootstrap-daterangepicker/daterangepicker.css";
 import CollapseHeader from "../../../core/common/collapse-header";
+import CryptoJS from 'crypto-js';
+import CountCard from "./CountCard";
+import { useAuthContext } from "../../../core/common/AuthContext";
+import { decryptCBC } from "../../../core/common/CryptoUtils";
+import { useApiHandler } from "../../../core/common/utils/customfunctions";
 
 const DealsDashboard = () => {
-  // Deals By Stage
+  const [dashboardData, setDashboardData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const { state,actions: { setDecryptData } } = useAuthContext();
+    const secretKey:any = process.env.REACT_APP_SECRET_KEY;
+    const [key] = useState(CryptoJS.enc.Utf8.parse(secretKey));
+    const [iv] = useState(CryptoJS.lib.WordArray.create());
+    const { Token,UserID } = state.decryptedData;
+      const { loadTableData } = useApiHandler();
+
+      useEffect(() => {
+        tableListHandler();
+      }, []);
+      // console.log("dashboardData",dashboardData)
+    
+      const tableListHandler = () => {
+        loadTableData({
+          url: `/api/GetDashBoardDetails?`,
+          setState: setDashboardData,
+          setLoading,
+        });
+      };
+
+
   const chartRef = useRef(null);
   useEffect(() => {
     localStorage.setItem('menuOpened', 'Dashboard')
@@ -268,31 +295,35 @@ const DealsDashboard = () => {
     startDate: new Date("2020-08-04T04:57:17.076Z"), // Set "Last 7 Days" as default
     timePicker: false,
   };
-  const location = useLocation();
-  const [showLoader, setShowLoader] = useState(false);
+
+  // useEffect(() => {
+  //   if(location.pathname === '/dashboard/deals-dashboard'){
+  //     setShowLoader(true)
+  //     setTimeout(() => {
+  //       setShowLoader(false);
+  //     }, 2000);
+  //   }
+   
+  // }, [location.pathname]);
 
   useEffect(() => {
-    if(location.pathname === '/dashboard/deals-dashboard'){
-      setShowLoader(true)
-      setTimeout(() => {
-        setShowLoader(false);
-      }, 2000);
+    const link:any = document.querySelector("link[rel~='icon']");
+    if (link) {
+      link.href = "/favicon.png";
     }
-   
-  }, [location.pathname]);
-
-
+  }, []);
 
   return (
     <>
       <div className="page-wrapper">
-  <div className="content">
-    <div className="row">
+      <div className="content">
+  
+    {/* <div className="row">
       <div className="col-md-12">
         <div className="page-header">
           <div className="row align-items-center ">
             <div className="col-md-4">
-              <h3 className="page-title">Deals Dashboard</h3>
+              <h3 className="page-title">PMS Dashboard</h3>
             </div>
             <div className="col-md-8 float-end ms-auto">
               <div className="d-flex title-head">
@@ -317,15 +348,21 @@ const DealsDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
-    <div className="row">
+    </div> */}
+    {/* card  */}
+    {/* <div className="row">
+     <CountCard data = {dashboardData[0]}/>
+    </div> */}
+    {/* =====end card====== */}
+
+    {/* <div className="row">
       <div className="col-md-6 d-flex">
         <div className="card flex-fill">
           <div className="card-header border-0 pb-0">
             <div className="d-flex align-items-center justify-content-between flex-wrap row-gap-3">
               <h4>
                 <i className="ti ti-grip-vertical me-1" />
-                Recently Created Deals
+                Task Information
               </h4>
               <div className="dropdown">
                 <Link
@@ -427,7 +464,7 @@ const DealsDashboard = () => {
             <div className="d-flex align-items-center justify-content-between flex-wrap row-gap-3">
               <h4>
                 <i className="ti ti-grip-vertical me-1" />
-                Deals By Stage
+                Task Status
               </h4>
               <div className="d-flex align-items-center flex-wrap row-gap-2">
                 <div className="dropdown me-2">
@@ -484,15 +521,15 @@ const DealsDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
-    <div className="row">
+    </div> */}
+    {/* <div className="row">
       <div className="col-md-6 d-flex">
         <div className="card flex-fill">
           <div className="card-header border-0 pb-0">
             <div className="d-flex align-items-center justify-content-between flex-wrap row-gap-3">
               <h4>
                 <i className="ti ti-grip-vertical me-1" />
-                Leads By Stage
+                PM Task Status
               </h4>
               <div className="d-flex align-items-center flex-wrap row-gap-2">
                 <div className="dropdown me-2">
@@ -612,8 +649,8 @@ const DealsDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
-    <div className="row">
+    </div> */}
+    {/* <div className="row">
       <div className="col-md-12 d-flex">
         <div className="card w-100">
           <div className="card-header border-0 pb-0">
@@ -668,7 +705,7 @@ const DealsDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
   </div>
 </div>
 

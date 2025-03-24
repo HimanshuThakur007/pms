@@ -1,21 +1,34 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars-2";
-import { SidebarData } from "../../data/json/sidebarData";
 import ImageWithBasePath from "../imageWithBasePath";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setExpandMenu } from "../../data/redux/commonSlice";
+import { useApiHandler } from "../utils/customfunctions";
+import { useAuthContext } from "../AuthContext";
+
+interface Permission {
+  mView: number;
+  mEdit: number;
+  mDelete: number;
+  mCreate: number;
+}
 
 const Sidebar = () => {
   const Location = useLocation();
-  const expandMenu = useSelector((state: any) => state.expandMenu);
+  const { loadTableData } = useApiHandler();
+  const [SidebarData, setSidebarData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
-  const [subOpen, setSubopen] = useState<any>('');
+  const [subOpen, setSubopen] = useState<any>("");
   const [subsidebar, setSubsidebar] = useState("");
+  const { state } = useAuthContext();
+  const { UserID, Name, Role, Url } = state.decryptedData;
 
   const toggleSidebar = (title: any) => {
-    localStorage.setItem('menuOpened', title)
+    localStorage.setItem("menuOpened", title);
     if (title === subOpen) {
       setSubopen("");
     } else {
@@ -36,28 +49,43 @@ const Sidebar = () => {
   const toggle2 = () => {
     dispatch(setExpandMenu(false));
   };
- 
+
   useEffect(() => {
-    setSubopen(localStorage.getItem('menuOpened'))
+    setSubopen(localStorage.getItem("menuOpened"));
     // Select all 'submenu' elements
-    const submenus = document.querySelectorAll('.submenu')
+    const submenus = document.querySelectorAll(".submenu");
     // Loop through each 'submenu'
     submenus.forEach((submenu) => {
       // Find all 'li' elements within the 'submenu'
-      const listItems = submenu.querySelectorAll('li')
-      submenu.classList.remove('active')
+      const listItems = submenu.querySelectorAll("li");
+      submenu.classList.remove("active");
       // Check if any 'li' has the 'active' class
       listItems.forEach((item) => {
-        if (item.classList.contains('active')) {
+        if (item.classList.contains("active")) {
           // Add 'active' class to the 'submenu'
-          submenu.classList.add('active')
-          return
+          submenu.classList.add("active");
+          return;
         }
-      })
-    })
-    
-  }, [Location.pathname])
- 
+      });
+    });
+    // console.log("Himanshu");
+  }, [Location.pathname]);
+
+  useEffect(() => {
+    tableListHandler(UserID);
+  }, [state]);
+
+  const tableListHandler = (code: number) => {
+    // console.log("code==>>", code);
+    // console.log("url==>>", `/api/GetUserMenusResponse?userid=${code}`);
+    loadTableData({
+      url: `/api/GetUserMenusResponse?userid=${code}`,
+      setState: setSidebarData,
+      setLoading,
+    });
+  };
+  // console.log('DidebarData',SidebarData)
+
   return (
     <>
       <div
@@ -71,26 +99,27 @@ const Sidebar = () => {
             <div id="sidebar-menu" className="sidebar-menu">
               <ul>
                 <li className="clinicdropdown theme">
-                  <Link to="/profile">
+                  <Link to="/about-me">
                     <ImageWithBasePath
-                      src="assets/img/profiles/avatar-14.jpg"
+                      src={Url || "assets/img/admin.jpg"}
                       className="img-fluid"
                       alt="Profile"
                     />
+                    
                     <div className="user-names">
-                      <h5>Adrian Davies</h5>
-                      <h6>Tech Lead</h6>
+                      <h5>{Name}</h5>
+                      <h6>{Role}</h6>
                     </div>
                   </Link>
                 </li>
               </ul>
 
               <ul>
-                {SidebarData?.map((mainLabel, index) => (
+                {SidebarData?.map((mainLabel: any, index: number) => (
                   <li className="clinicdropdown" key={index}>
                     <h6 className="submenu-hdr">{mainLabel?.label}</h6>
                     <ul>
-                      {mainLabel?.submenuItems?.map((title: any, i) => {
+                      {mainLabel?.submenuItems?.map((title: any, i: number) => {
                         let link_array: any = [];
                         if ("submenuItems" in title) {
                           title.submenuItems?.forEach((link: any) => {
@@ -108,7 +137,15 @@ const Sidebar = () => {
                           <li className="submenu" key={title.label}>
                             <Link
                               to={title?.submenu ? "#" : title?.link}
-                              onClick={() => toggleSidebar(title?.label)}
+                              state={{ sidebarData: title }}
+                              // onClick={() => toggleSidebar(title?.label)}
+                              onClick={(e) => {
+                                if (title?.submenu) {
+                                  e.preventDefault(); // Prevent default navigation
+                                }
+                                toggleSidebar(title?.label);
+                                // handleMenuClick(title);
+                              }}
                               className={`${
                                 subOpen === title?.label ? "subdrop" : ""
                               } ${
@@ -117,23 +154,19 @@ const Sidebar = () => {
                                   : ""
                               } ${
                                 title?.submenuItems
-                                        ?.map((link: any) => link?.link)
-                                        .includes(Location.pathname) ||
-                                        title?.link === Location.pathname
-                                        ? "active"
-                                        : "" || 
-                                        title?.subLink1 === Location.pathname
-                                        ? "active"
-                                        : "" || 
-                                        title?.subLink2 === Location.pathname
-                                        ? "active"
-                                        : "" || 
-                                        title?.subLink3 === Location.pathname
-                                        ? "active"
-                                        : "" || 
-                                        title?.subLink4 === Location.pathname
-                                        ? "active"
-                                        : ""
+                                  ?.map((link: any) => link?.link)
+                                  .includes(Location.pathname) ||
+                                title?.link === Location.pathname
+                                  ? "active"
+                                  : "" || title?.subLink1 === Location.pathname
+                                  ? "active"
+                                  : "" || title?.subLink2 === Location.pathname
+                                  ? "active"
+                                  : "" || title?.subLink3 === Location.pathname
+                                  ? "active"
+                                  : "" || title?.subLink4 === Location.pathname
+                                  ? "active"
+                                  : ""
                               }`}
                             >
                               <i className={title.icon}></i>
@@ -155,16 +188,18 @@ const Sidebar = () => {
                                 >
                                   <Link
                                     to={item?.link}
-                                    className={
-                                      `${item?.submenuItems
+                                    state={{ sidebarData: item }}
+                                    className={`${
+                                      item?.submenuItems
                                         ?.map((link: any) => link?.link)
                                         .includes(Location.pathname) ||
                                       item?.link === Location.pathname
                                         ? "active subdrop"
-                                        : ""} `
-                                    }
+                                        : ""
+                                    } `}
                                     onClick={() => {
                                       toggleSubsidebar(item?.label);
+                                      // console.log('sub2', item)
                                     }}
                                   >
                                     {item?.label}
@@ -182,29 +217,29 @@ const Sidebar = () => {
                                           : "none",
                                     }}
                                   >
-                                    {item?.submenuItems?.map(
-                                      (items: any) => (
-                                        <li key={items.label}>
-                                          <Link
-                                            to={items?.link}
-                                            className={`${
-                                              subsidebar === items?.label
-                                                ? "submenu-two subdrop"
-                                                : "submenu-two"
-                                            } ${
-                                              items?.submenuItems
-                                                ?.map((link: any) => link.link)
-                                                .includes(Location.pathname) ||
-                                              items?.link === Location.pathname
-                                                ? "active"
-                                                : ""
-                                            }`}
-                                          >
-                                            {items?.label}
-                                          </Link>
-                                        </li>
-                                      )
-                                    )}
+                                    {item?.submenuItems?.map((items: any) => (
+                                      <li key={items.label}>
+                                        <Link
+                                          to={items?.link}
+                                          state={{ sidebarData: item }}
+                                          className={`${
+                                            subsidebar === items?.label
+                                              ? "submenu-two subdrop"
+                                              : "submenu-two"
+                                          } ${
+                                            items?.submenuItems
+                                              ?.map((link: any) => link.link)
+                                              .includes(Location.pathname) ||
+                                            items?.link === Location.pathname
+                                              ? "active"
+                                              : ""
+                                          }`}
+                                          // onClick={()=>console.log('sub1', item)}
+                                        >
+                                          {items?.label}
+                                        </Link>
+                                      </li>
+                                    ))}
                                   </ul>
                                 </li>
                               ))}

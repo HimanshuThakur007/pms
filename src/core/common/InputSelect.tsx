@@ -1,5 +1,15 @@
 import React from "react";
 import Select from "react-select";
+const customStyles = {
+  menu: (base:any) => ({
+    ...base,
+    zIndex: 9999,
+  }),
+  // control: (base:any, { hasValue }:any) => ({
+  //   ...base,
+  //   height: "auto", // Auto height when multiple values are selected
+  // }),
+};
 
 const InputSelect = (props: any) => {
 
@@ -11,10 +21,10 @@ const InputSelect = (props: any) => {
           {props.selectName} <span className="text-danger">{props.star}</span>
         </label>
           <Select
-            className="select2"
+            className="select"
             classNamePrefix="react-select"
             name={props.name}
-            placeholder={props.placeholder}
+            placeholder={`Select ${props.selectName}`}
             getOptionLabel={props.getOptionLabel}
             getOptionValue={props.getOptionValue}
             isOptionSelected={props.isOptionSelected}
@@ -32,6 +42,8 @@ const InputSelect = (props: any) => {
             required={props.required}
             isMulti={props.isMulti}
             isClearable ={props.isClearable}
+            styles={customStyles}
+            isDisabled={props.isDisabled}
             // isClearable={true}
           />
         </div>

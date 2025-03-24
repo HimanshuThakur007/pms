@@ -6,22 +6,23 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const CollapseHeader = () => {
   const dispatch = useDispatch();
-  const headerCollapse = useSelector((state: any) => state.headerCollapse);
+  const headerCollapse = useSelector((state: any) => state.CRMS.headerCollapse);
 
-  const toggleHeaderCollapse = () => {
+  const toggleHeaderCollapse = (e:any) => {
+    e.preventDefault();
     dispatch(setHeaderCollapse(!headerCollapse));
   };
 
   return (
     <>
-      <OverlayTrigger
+      {/* <OverlayTrigger
         placement="bottom"
         overlay={<Tooltip id="refresh-tooltip">Refresh</Tooltip>}
       >
         <Link to="#">
           <i className="ti ti-refresh-dot" />
         </Link>
-      </OverlayTrigger>
+      </OverlayTrigger> */}
       <OverlayTrigger
         placement="bottom"
         overlay={<Tooltip id="collapse-tooltip">Collapse</Tooltip>}

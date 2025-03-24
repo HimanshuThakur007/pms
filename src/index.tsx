@@ -18,6 +18,7 @@ import "../src/style/icon/tabler-icons/webfont/tabler-icons.css";
 import ALLRoutes from "./feature-module/router/router";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import { HelmetProvider } from 'react-helmet-async'
+import { AuthProvider } from "./core/common/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,12 +26,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <AuthProvider>
     <HelmetProvider>
       <BrowserRouter basename={base_path}>
         <Loader />
         <ALLRoutes />
       </BrowserRouter>
       </HelmetProvider>
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );

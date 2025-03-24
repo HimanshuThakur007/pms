@@ -8,23 +8,30 @@ import {
   setMiniSidebar,
   setMobileSidebar,
 } from "../../data/redux/commonSlice";
+import { useAuthContext } from "../AuthContext";
 const Header = () => {
   const route = all_routes;
   const location = useLocation();
   const dispatch = useDispatch();
-  const mobileSidebar = useSelector((state: any) => state.mobileSidebar);
-  const miniSidebar = useSelector((state: any) => state.miniSidebar);
+    const { state } = useAuthContext();
+    const { UserID, Name, Role, Url } = state.decryptedData;
+  const mobileSidebar = useSelector((state: any) => state.CRMS.mobileSidebar);
+  const miniSidebar = useSelector((state: any) => state.CRMS.miniSidebar);
 
-  const toggleMobileSidebar = () => {
+  const toggleMobileSidebar = (e:any) => {
+    e.preventDefault()
     dispatch(setMobileSidebar(!mobileSidebar));
   };
-  const toggleMiniSidebar = () => {
+  const toggleMiniSidebar = (e:any) => {
+    e.preventDefault()
     dispatch(setMiniSidebar(!miniSidebar));
   };
-  const toggleExpandMenu = () => {
+  const toggleExpandMenu = (e:any) => {
+    e.preventDefault()
     dispatch(setExpandMenu(true));
   };
-  const toggleExpandMenu2 = () => {
+  const toggleExpandMenu2 = (e:any) => {
+    e.preventDefault()
     dispatch(setExpandMenu(false));
   };
 
@@ -63,11 +70,11 @@ const Header = () => {
             ) : (
               <ImageWithBasePath src="assets/img/logo.svg" alt="Logo" />
             )} */}
-            <ImageWithBasePath src="assets/img/logo.svg" alt="Logo"/>
-            <ImageWithBasePath src="assets/img/white-logo.svg" className="white-logo" alt="Logo"/>
+            <ImageWithBasePath src="logo1.png" alt="Logo"/>
+            <ImageWithBasePath src="logo1.png" className="white-logo" alt="Logo"/>
           </Link>
           <Link to={route.dealsDashboard} className="logo-small">
-            <ImageWithBasePath src="assets/img/logo-small.svg" alt="Logo" />
+            <ImageWithBasePath src="favicon.png" alt="Logo" />
           </Link>
           <Link id="toggle_btn" to="#" onClick={toggleMiniSidebar}>
             <i className="ti ti-arrow-bar-to-left" />
@@ -90,7 +97,7 @@ const Header = () => {
           <ul className="nav user-menu">
             {/* Search */}
             <li className="nav-item nav-search-inputs me-auto">
-              <div className="top-nav-search">
+              {/* <div className="top-nav-search">
                 <Link to="#" className="responsive-search">
                   <i className="fa fa-search" />
                 </Link>
@@ -104,7 +111,7 @@ const Header = () => {
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> */}
             </li>
             {/* /Search */}
             {/* Nav List */}
@@ -113,6 +120,7 @@ const Header = () => {
                 <li className="dark-mode-list">
                   <Link
                     to="#"
+                    onClick={(e)=>e.preventDefault()}
                     className={`dark-mode-toggle ${layoutBs ? "" : "active"}`}
                     id="dark-mode-toggle"
                   >
@@ -132,7 +140,7 @@ const Header = () => {
                     ></i>
                   </Link>
                 </li>
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <Link
                     to="#"
                     className="btn btn-header-list"
@@ -292,21 +300,21 @@ const Header = () => {
                   <Link to="#" className="btn btn-chart-pie">
                     <i className="ti ti-chart-pie" />
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
             {/* /Nav List */}
             {/* Email */}
             <li className="nav-item nav-item-email nav-item-box">
-              <Link to={route.email}>
+              {/* <Link to={route.email}>
                 <i className="ti ti-message-circle-exclamation" />
                 <span className="badge rounded-pill">14</span>
-              </Link>
+              </Link> */}
             </li>
             {/* /Email */}
             {/* Notifications */}
             <li className="nav-item dropdown nav-item-box">
-              <Link to="#" className="nav-link" data-bs-toggle="dropdown">
+              {/* <Link to="#" className="nav-link" data-bs-toggle="dropdown">
                 <i className="ti ti-bell" />
                 <span className="badge rounded-pill">13</span>
               </Link>
@@ -406,7 +414,7 @@ const Header = () => {
                     Clear all
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </li>
             {/* /Notifications */}
             {/* Profile Dropdown */}
@@ -419,7 +427,7 @@ const Header = () => {
                 <span className="user-info">
                   <span className="user-letter">
                     <ImageWithBasePath
-                      src="assets/img/profiles/avatar-20.jpg"
+                      src={Url || "assets/img/admin.jpg"}
                       alt="Profile"
                     />
                   </span>
@@ -431,10 +439,10 @@ const Header = () => {
                   <Link className="dropdown-item" to={route.dealsDashboard}>
                     <i className="ti ti-layout-2" /> Dashboard
                   </Link>
-                  <Link className="dropdown-item" to={route.profile}>
+                  <Link className="dropdown-item" to={route.profilePage}>
                     <i className="ti ti-user-pin" /> My Profile
                   </Link>
-                  <Link className="dropdown-item" to={route.login}>
+                  <Link className="dropdown-item" to={route.login} onClick={()=>sessionStorage.clear()}>
                     <i className="ti ti-lock" /> Logout
                   </Link>
                 </div>

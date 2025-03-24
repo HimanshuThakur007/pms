@@ -9,11 +9,11 @@ import Sidebar from "../core/common/sidebar";
 
 const Feature = () => {
   const dispatch = useDispatch();
-  const themeOpen = useSelector((state: any) => state?.themeSettings);
-  const headerCollapse = useSelector((state: any) => state.headerCollapse);
-  const mobileSidebar = useSelector((state: any) => state.mobileSidebar);
-  const miniSidebar = useSelector((state: any) => state.miniSidebar);
-  const expandMenu = useSelector((state: any) => state.expandMenu);
+  const themeOpen = useSelector((state: any) => state?.CRMS.themeSettings);
+  const headerCollapse = useSelector((state: any) => state?.CRMS.headerCollapse);
+  const mobileSidebar = useSelector((state: any) => state?.CRMS.mobileSidebar);
+  const miniSidebar = useSelector((state: any) => state?.CRMS.miniSidebar);
+  const expandMenu = useSelector((state: any) => state?.CRMS.expandMenu);
  
   return (
     <div className={`
