@@ -234,11 +234,17 @@ export interface MasterDataType {
            displayName: "Notification",
          }),
          // =======aprrerasal======
-         "1111": {
-           url: "/api/Getreviewlist?UserCode=0",
-           columns: appraisalColumn,
-           displayName: "Annual Performance Review/Appraisal",
-         },
+         "1111": (userId: number) => ({
+          // url: `/api/GetNotificationDetails?Code=${userId}`,
+          url: `/api/Getreviewlist?userCode=${userId}`,
+          columns: appraisalColumn,
+          displayName: "Annual Performance Review/Appraisal",
+        }),
+        //  "1111": {
+        //    url: "/api/Getreviewlist?UserCode=0",
+        //    columns: appraisalColumn,
+        //    displayName: "Annual Performance Review/Appraisal",
+        //  },
     });
 
     

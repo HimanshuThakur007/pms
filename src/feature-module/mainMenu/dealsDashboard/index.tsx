@@ -19,11 +19,29 @@ const DealsDashboard = () => {
     const [iv] = useState(CryptoJS.lib.WordArray.create());
     const { Token,UserID } = state.decryptedData;
       const { loadTableData } = useApiHandler();
+      const storedEncryptedData:any = JSON.parse(sessionStorage.getItem('encryptedData')||'');
 
       useEffect(() => {
         tableListHandler();
       }, []);
       // console.log("dashboardData",dashboardData)
+useEffect(() => {
+  if(storedEncryptedData){
+    getEncData()
+  }  
+  },[storedEncryptedData]);
+const getEncData = () => {
+  if (storedEncryptedData) {
+    const decrypted = decryptCBC(storedEncryptedData, key, iv);
+    try {       
+      const parsedDecryptedData = JSON.parse(decrypted);
+      console.log("parsedDecryptedData", parsedDecryptedData)
+      setDecryptData(parsedDecryptedData);
+     } catch (error) {
+      console.error('Error while parsing decrypted data:', error);
+    }
+  }
+}
     
       const tableListHandler = () => {
         loadTableData({

@@ -139,7 +139,7 @@ const AddUserModal = ({
       Password: formData?.password || "",
       Block: formData?.block_list?.value,
       Designation: formData?.master_102?.value,
-      Department: formData?.master_102?.value,
+      Department: formData?.master_101?.value,
       Site: 0,
       Role: formData?.master_109?.value,
       reportingTo: formData?.reporting === true ? 1 : 0,
